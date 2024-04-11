@@ -1,0 +1,193 @@
+construir o código completo passo a passo, incluindo registro de novos usuários, criação de contas, operações bancárias (depósito, saque, transferência de fundos), e a possibilidade de mudar de conta ou sair.
+
+### Passo 1: Definindo Estruturas de Dados Iniciais
+
+Começamos definindo a estrutura inicial para armazenar usuários e contas:
+
+```python
+usuarios = []
+contas = []
+```
+
+### Passo 2: Funções Auxiliares
+
+Implementamos funções para buscar usuários e contas por CPF e ID, respectivamente, pois serão úteis para várias operações:
+
+```python
+def filtrar_usuario(cpf):
+    return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
+
+def encontrar_conta_por_id(conta_id):
+    return next((conta for conta in contas if conta["id"] == conta_id), None)
+```
+
+### Passo 3: Criando Usuário
+
+A função para criar um novo usuário verifica se o CPF já existe e, se não, adiciona o usuário à lista de usuários:
+
+```python
+def criar_usuario():
+    cpf = input("Informe o CPF (somente números): ")
+    if filtrar_usuario(cpf):
+        print("\n@@@ Já existe usuário com esse CPF! @@@")
+        return None
+    nome = input("Informe o nome completo: ")
+    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
+    endereco = input("Informe o endereço completo: ")
+    novo_usuario = {"nome": nome, "cpf": cpf, "data_nascimento": data_nascimento, "endereco": endereco}
+    usuarios.append(novo_usuario)
+    print("\n=== Usuário criado com sucesso! ===")
+    return novo_usuario
+```
+
+### Passo 4: Criando Conta
+
+A função para criar uma conta associa a conta ao usuário pelo CPF:
+
+```python
+def criar_conta(usuario):
+    agencia = "0001"
+    numero_conta = str(len(contas) + 1)
+    tipo = input("Tipo de conta (Poupança/Corrente): ")
+    nova_conta = {"id": len(contas) + 1, "agencia": agencia, "numero_conta": numero_conta, "usuario": usuario, "saldo": 0, "extrato": ""}
+    contas.append(nova_conta)
+    print("\n=== Conta criada com sucesso! ===")
+```
+
+### Passo 5: Operações Bancárias
+
+Implementamos funções para depositar, sacar e exibir o extrato da conta ativa:
+
+```python
+def depositar(conta):
+    valor = float(input("Valor do depósito: "))
+    if valor > 0:
+        conta['saldo'] += valor
+        print(f"\nDepósito de R$ {valor:.2f} realizado com sucesso.")
+    else:
+        print("\nValor de depósito inválido.")
+
+def sacar(conta):
+    valor = float(input("Valor do saque: "))
+    if 0 < valor <= conta['saldo']:
+        conta['saldo'] -= valor
+        print(f"\nSaque de R$ {valor:.2f} realizado com sucesso.")
+    else:
+        print("\nSaque não realizado. Verifique o valor e tente novamente.")
+
+def exibir_extrato(conta):
+    print(f"\nExtrato da Conta ID {conta['id']} - {conta['tipo']}:")
+    print(f"Saldo Atual: R$ {conta['saldo']:.2f}")
+```
+
+### Passo 6: Seleção de Conta e Menu Principal
+
+Implementamos a lógica para permitir ao usuário escolher entre fazer login (entrar com CPF existente) ou registrar um novo usuário e, em seguida, selecionar uma conta para operar. Depois disso, o usuário pode realizar operações bancárias específicas através de um menu de opções:
+
+```python
+def iniciar():
+    print("Bem-vindo ao Banco GPT!")
+    escolha = input("[1] Entrar com CPF existente\n[2] Registrar novo usuário\nEscolha uma opção: ")
+    if escolha == '1':
+        cpf = input("Informe seu CPF: ")
+        usuario = filtrar_usuario(cpf)
+        if not usuario:
+            print("\nUsuário não encontrado.")
+            return None, None
+        return usuario, None
+    elif escolha == '2':
+        usuario = criar_usuario()
+        if usuario:
+            conta = criar_conta(usuario)
+            return usuario, conta
+        return None,
+
+ None
+    else:
+        print("\nOpção inválida.")
+        return None, None
+
+def menu_principal():
+    return """\n
+    ================ MENU ================
+    [d]\tDepositar
+    [s]\tSacar
+    [e]\tExtrato
+    [nc]\tNova conta
+    [lc]\tListar contas
+    [q]\tSair
+    => """
+
+def selecionar_acao(conta):
+    while conta:
+        opcao = input(menu_principal())
+        if opcao == 'd':
+            depositar(conta)
+        elif opcao == 's':
+            sacar(conta)
+        elif opcao == 'e':
+            exibir_extrato(conta)
+        elif opcao == 'nc':
+            criar_conta(filtrar_usuario(conta['usuario']['cpf']))  # Assume que o usuário já existe
+        elif opcao == 'lc':
+            # Implementar listagem de contas
+            pass
+        elif opcao == 'q':
+            print("Saindo...")
+            break
+        else:
+            print("\nOpção inválida, por favor selecione novamente.")
+
+def main():
+    usuario, conta = iniciar()
+    if conta:
+        selecionar_acao(conta)
+    else:
+        print("Nenhuma conta ativa. Saindo...")
+
+if __name__ == "__main__":
+    main()
+```
+
+Este código oferece um sistema bancário simplificado que permite ao usuário realizar operações básicas como depositar, sacar, e ver o extrato da sua conta, além de poder registrar novos usuários e criar novas contas. Ele também apresenta uma estrutura que você pode expandir facilmente para adicionar novas funcionalidades conforme necessário.
+
+
+
+OBS:
+
+A linha `if __name__ == "__main__":` é uma parte importante do código em Python que verifica se um script está sendo executado diretamente ou sendo importado como um módulo em outro script. Essa funcionalidade é usada para controlar o comportamento de um programa Python quando ele é executado diretamente versus quando funções ou classes definidas nele são usadas em outro arquivo através de importação.
+
+Vamos quebrar isso em partes para entender melhor:
+
+### O que é `__name__`?
+
+Em Python, `__name__` é uma variável especial, um built-in, que existe em todos os scripts e módulos Python. Quando você executa um arquivo Python diretamente, o Python atribui à variável `__name__` o valor `"__main__"`. Isso indica que o script está sendo executado como o programa principal.
+
+Por outro lado, se você importa o arquivo Python como um módulo em outro script, o valor de `__name__` será o nome do arquivo (ou módulo) importado. Por exemplo, se você tem um arquivo chamado `meu_modulo.py` e o importa, o valor de `__name__` dentro de `meu_modulo.py` será `"meu_modulo"`.
+
+### O que faz `if __name__ == "__main__":`?
+
+A condição `if __name__ == "__main__":` verifica se o script está sendo executado diretamente. Se for verdade (ou seja, o script é o programa principal), o bloco de código sob essa condição será executado. Esse bloco normalmente contém chamadas a funções, execução de testes ou código que você não quer que seja executado quando o script for importado como um módulo em outro arquivo.
+
+### Por que usar `if __name__ == "__main__":`?
+
+- **Reutilização de código:** Permite que você escreva scripts que possam ser executados por conta própria ou usados como módulos em outros programas. Isso facilita a reutilização de código.
+- **Organização:** Ajuda a manter o código de inicialização ou teste separado do restante do código. Isso torna o código mais limpo e mais fácil de entender.
+- **Teste e Depuração:** Permite testar e depurar partes de seu código em isolamento, sem ter que executar todo o código de importação.
+
+### Exemplo Prático
+
+```python
+# arquivo: meu_modulo.py
+def funcao_util():
+    print("Função útil sendo executada")
+
+if __name__ == "__main__":
+    print("Executando como o script principal")
+    funcao_util()
+```
+
+- Se você executar `meu_modulo.py` diretamente, verá a mensagem `"Executando como o script principal"` e `"Função útil sendo executada"`, porque `__name__` será igual a `"__main__"`.
+- Se você importar `meu_modulo.py` em outro script Python usando `import meu_modulo`, apenas a definição da função `funcao_util` será importada e disponível. O bloco sob `if __name__ == "__main__":` não será executado, pois `__name__` será `"meu_modulo"` nesse caso.
+
+Espero que isso esclareça o propósito e o uso de `if __name__ == "__main__":` em Python.

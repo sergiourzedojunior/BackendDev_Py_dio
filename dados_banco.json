@@ -1,0 +1,39 @@
+{
+    "usuarios": [
+        {
+            "nome": "suj",
+            "cpf": "20020020020",
+            "data_nascimento": "30-06-1975",
+            "endereco": "r serramar"
+        }
+    ],
+    "contas": [
+        {
+            "id": 1,
+            "agencia": "0001",
+            "numero_conta": "1",
+            "usuario": {
+                "nome": "suj",
+                "cpf": "20020020020",
+                "data_nascimento": "30-06-1975",
+                "endereco": "r serramar"
+            },
+            "saldo": 20167361.0,
+            "extrato": "",
+            "tipo": "Corrente"
+        },
+        {
+            "id": 2,
+            "agencia": "0001",
+            "numero_conta": "2",
+            "usuario": {
+                "nome": "suj",
+                "cpf": "20020020020",
+                "data_nascimento": "30-06-1975",
+                "endereco": "r serramar"
+            },
+            "saldo": 654885.0,
+            "tipo": "Corrente"
+        }
+    ]
+}
