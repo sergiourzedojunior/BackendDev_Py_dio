@@ -9,7 +9,10 @@ https://github.com/digitalinnovationone/trilha-python-dio.git
 2. **no menu inserção da opção de trasnferência entre contas**
 
 
-## Segundo desafio (desafio_v2_1.py)
+# Segundo desafio (desafio_v2_1.py)
+
+
+_______________________
 
 # Importando as bibliotecas necessárias
 import json
@@ -164,3 +167,5 @@ def main():
 # Verifica se o script está sendo executado diretamente e, em caso afirmativo, chama a função principal
 if __name__ == "__main__":
     main()
+
+_______________________
