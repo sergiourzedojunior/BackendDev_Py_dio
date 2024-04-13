@@ -1,24 +1,24 @@
 # Desafio: Criando um sistema bancário
-### **Desafio de código DIO**
+##****Desafio de código DIO**
 https://github.com/digitalinnovationone/trilha-python-dio.git
 
 
-## modifcações do código original 
+#**modifcações do código original 
 
 1. **inserção de um usuário com duas contas**
 2. **no menu inserção da opção de trasnferência entre contas**
+   
 
-
-# Segundo desafio (desafio_v2_1.py)
+**Segundo desafio (desafio_v2_1.py)
 
 
 _______________________
 
-# Importando as bibliotecas necessárias
+**Importando as bibliotecas necessárias**
 import json
 import textwrap
 
-# Função para carregar os dados dos usuários e contas do arquivo JSON
+**Função para carregar os dados dos usuários e contas do arquivo JSON**
 def carregar_dados():
     try:
         with open("dados_banco.json", "r") as arquivo:
@@ -28,12 +28,12 @@ def carregar_dados():
         print("Arquivo de dados não encontrado, iniciando com dados vazios.")
         return [], []
 
-# Função para salvar os dados dos usuários e contas no arquivo JSON
+**Função para salvar os dados dos usuários e contas no arquivo JSON**
 def salvar_dados(usuarios, contas):
     with open("dados_banco.json", "w") as arquivo:
         json.dump({"usuarios": usuarios, "contas": contas}, arquivo, indent=4)
 
-# Função para exibir o menu principal e capturar a opção do usuário
+**Função para exibir o menu principal e capturar a opção do usuário**
 def menu_principal():
     menu_text = """\n
     ================ MENU ================
@@ -48,11 +48,11 @@ def menu_principal():
     => """
     return input(textwrap.dedent(menu_text))
 
-# Função para filtrar um usuário pelo CPF
+**Função para filtrar um usuário pelo CPF**
 def filtrar_usuario(cpf, usuarios):
     return next((usuario for usuario in usuarios if usuario["cpf"] == cpf), None)
 
-# Função para selecionar uma conta de um usuário
+**Função para selecionar uma conta de um usuário**
 def selecionar_conta(usuario, contas):
     print(f"\nContas disponíveis para {usuario['nome']}:")
     for conta in contas:
@@ -61,7 +61,7 @@ def selecionar_conta(usuario, contas):
     conta_id = int(input("\nSelecione o ID da conta para operar: "))
     return next((conta for conta in contas if conta['id'] == conta_id), None)
 
-# Função para criar um novo usuário
+**Função para criar um novo usuário**
 def criar_usuario(usuarios):
     cpf = input("Informe o CPF (somente números): ")
     if filtrar_usuario(cpf, usuarios):
@@ -75,7 +75,7 @@ def criar_usuario(usuarios):
     print("\n=== Usuário criado com sucesso! ===")
     return novo_usuario
 
-# Função para criar uma nova conta para um usuário
+**Função para criar uma nova conta para um usuário**
 def criar_conta(usuarios, contas, usuario):
     agencia = "0001"
     numero_conta = str(len(contas) + 1)
@@ -92,7 +92,7 @@ def criar_conta(usuarios, contas, usuario):
     print("\n=== Conta criada com sucesso! ===")
     return nova_conta
 
-# Função para realizar uma transferência entre contas
+**Função para realizar uma transferência entre contas**
 def transferir(contas, conta_origem):
     destino_cpf = input("Informe o CPF do destinatário: ")
     destino_id = int(input("Informe o ID da conta destinatária: "))
@@ -111,7 +111,7 @@ def transferir(contas, conta_origem):
     conta_destino['saldo'] += valor
     print(f"\n=== Transferência de R$ {valor:.2f} realizada com sucesso! ===")
 
-# Função para realizar uma operação de acordo com a opção escolhida no menu
+**Função para realizar uma operação de acordo com a opção escolhida no menu**
 def realizar_operacao(opcao, conta, usuarios, contas):
     if opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
@@ -132,11 +132,11 @@ def realizar_operacao(opcao, conta, usuarios, contas):
     elif opcao == "nc":
         criar_conta(usuarios, contas, conta['usuario'])
     elif opcao == "lc":
-        return selecionar_conta(conta['usuario'], contas)  # Return the selected account
+        return selecionar_conta(conta['usuario'], contas)  **Return the selected account
     elif opcao == "nu":
         criar_usuario(usuarios)
 
-# Função principal do programa
+**Função principal do programa**
 def main():
     usuarios, contas = carregar_dados()
     cpf = input("Informe seu CPF para entrar ou cadastrar: ")
@@ -160,11 +160,11 @@ def main():
             print("Saindo...")
             break
         result = realizar_operacao(opcao, conta, usuarios, contas)
-        if opcao == 'lc':  # Update current account after operation if list accounts was selected
+        if opcao == 'lc':  **Update current account after operation if list accounts was selected
             if result:
-                conta = result  # Update to new selected account
+                conta = result  **Update to new selected account
 
-# Verifica se o script está sendo executado diretamente e, em caso afirmativo, chama a função principal
+**Verifica se o script está sendo executado diretamente e, em caso afirmativo, chama a função principal
 if __name__ == "__main__":
     main()
 
